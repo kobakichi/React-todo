@@ -25,6 +25,22 @@ function TodoList() {
     setTask(event.target.value)
   }
   
+  const handleUpdateTask = index => {
+    let newTodos = todos.map((todo,todoIndex) => {
+      if(todoIndex === index){
+        todo.isCompleted = !todo.isCompleted
+      }
+      return todo;
+    })
+    setTodo(newTodos);
+  }
+
+  const handleRemoveTask = index => {
+    const newTodos = [...todos]
+    newTodos.splice(index,1)
+    setTodo(newTodos)
+  }
+
   const handleSubmit = (event) => {
     event.preventDefault()
     if(task === '') return
@@ -41,7 +57,8 @@ function TodoList() {
       </form>
       <ul>
         { todos.map((todo, index) => (
-          <li key={ index }>{ todo.task }</li>
+          <li key={ index } style={ todo.isCompleted === true ? {textDecorationLine:'line-through'}:{}}>
+            { todo.task } <span onClick={ () => handleUpdateTask(index) }>X</span></li>
         ))}
       </ul>
     </div>
